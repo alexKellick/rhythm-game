@@ -4,21 +4,11 @@ using UnityEngine;
 
 public class Enemy : Character
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        updateStats();
-        
+    void Start() {
+        updateStats(); 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public override void updateStats() {
+        base.updateStats();
     }
-
-    //@override
-    /*public void changeHP(int hp) {
-        base.changeHP(hp);
-    }*/
 }

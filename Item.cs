@@ -1,25 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public abstract class Item : MonoBehaviour
-{
-    // Start is called before the first frame update
+
+//basically everything inheriting from this class needs to override use and musicloader
+public abstract class Item : MonoBehaviour {
     protected int amnt = 9;
-    void Start()
-    {
-        
-    }
-
 
     public virtual int use(GameObject player, GameObject enemy) {
-        //Debug.Log("item");
         return 0;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public virtual void musicLoader() {
+        SceneManager.LoadScene("MusicScene");
     }
 }

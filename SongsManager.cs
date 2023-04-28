@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class SongsManager : MonoBehaviour
 {
+    public SceneTransitions sceneTransitions;
 
     public float bpm;
     static float songPosition;
@@ -23,22 +24,15 @@ public class SongsManager : MonoBehaviour
                      1.25f, 1.5f, 1.75f, 2f,*/
                      2.25f, 2.5f, 2.75f, 3f,
                      3.25f, 3.5f, 3.75f, 4f};
-    // Start is called before the first frame update
-    /*void Start() {
-        secPerBeat = 60f/bpm;
-        dsptimesong = (float)AudioSettings.dspTime;
-        GetComponent<AudioSource>().Play();
-        SceneTransitions.currentScore = 0;
-        
-    }*/
 
     void Awake() {
         notesFinished = 0;
         secPerBeat = 60f/bpm;
         dsptimesong = (float)AudioSettings.dspTime;
         GetComponent<AudioSource>().Play();
-        SceneTransitions.currentScore = 0;
+        sceneTransitions.currentScore = 0;
         transform.position = new Vector3(0f, 0f, 1f);
+        sceneTransitions.setNotesFinished(0);
     }
 
     // Update is called once per frame
@@ -50,6 +44,13 @@ public class SongsManager : MonoBehaviour
         if(nextIndex < notes.Length && notes[nextIndex] < (songPosInBeats + beatsShownInAdvance)) {
             note = Instantiate(Resources.Load("Note")) as GameObject;
             nextIndex++;
+        }
+
+        if (notesFinished == getNotesArray().Length) {
+            notesFinished = 0;
+            loadSceneWait();
+            sceneTransitions.songDone = true;
+            SceneManager.LoadScene("maingamescene");
         }
     }
 
@@ -71,17 +72,12 @@ public class SongsManager : MonoBehaviour
     public static float getBeatsShownInAdvance() {
         return beatsShownInAdvance;
     }
-    public static void loadMainScene() {
-        SceneManager.UnloadSceneAsync("MusicScene");
-        SceneTransitions.songDone = true;
 
-    }
     public static float[] getNotesArray() {
         return notes;
     }
 
     public static IEnumerator loadSceneWait() {
-        yield return new WaitForSeconds(2);
-        loadMainScene();
+        yield return new WaitForSeconds(5);
     }
 }
